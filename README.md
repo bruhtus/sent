@@ -38,6 +38,8 @@ Produce image slides by prepending a `@` in front of the filename as a single pa
 Lines starting with `#` will be ignored.
 A `\` at the beginning of the line escapes `@` and `#`.
 
+Press `g` (preferably while fullscreen) and sent will flip through all of your slides and save them as pdf.
+
 A presentation file could look like this:
 
 ```sent
