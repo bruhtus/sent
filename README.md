@@ -18,16 +18,21 @@ and the [farbfeld][0] tools installed to use images in your presentations.
 
 To get a little demo, just type
 
-```bash
+```sh
 make && ./sent example
 ```
 
-You can navigate with the arrow keys and quit with `q`.
+You can navigate with the arrow keys or `hl` and quit with `q`.
 
+### System wide installation
+
+```sh
+sudo make install
+```
 
 ### Usage
 
-```bash
+```sh
 sent [FILE]
 sent -h
 sent -v
