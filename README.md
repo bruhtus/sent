@@ -12,7 +12,7 @@ Instead you can really concentrate on the content.
 ### Dependencies
 
 You need _Xlib_ and _Xft_ to build _sent_,
-and the [farbfeld][0] tools installed to use images in your presentations.
+and the [farbfeld][0] tools installed to use images in your presentations. Also, _cairo_ to convert _sent_ into pdf.
 
 ### Demo
 
