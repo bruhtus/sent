@@ -9,7 +9,7 @@ static char *fontfallbacks[] = {
 #define FONTSZ(x) ((int)(10.0 * powf(1.1288, (x)))) /* x in [0, NUMFONTSCALES-1] */
 
 static const char *colors[] = {
-	"#d0d0d0", /* foreground color */
+	"#b9b9b9", /* foreground color */
 	"#121212", /* background color */
 };
 
