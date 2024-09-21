@@ -102,6 +102,8 @@ static void cleanup(int slidesonly);
 static void reload(const Arg *arg);
 static void load(FILE *fp);
 static void advance(const Arg *arg);
+static void first_slide();
+static void last_slide();
 static void toggle_cursor(const Arg *arg);
 static void pdf();
 static void quit(const Arg *arg);
@@ -514,6 +516,22 @@ advance(const Arg *arg)
 		idx = new_idx;
 		xdraw();
 	}
+}
+
+void
+first_slide()
+{
+	Arg first;
+	first.i = -idx;
+	advance(&first);
+}
+
+void
+last_slide()
+{
+	Arg last;
+	last.i = (slidecount - 1) - idx;
+	advance(&last);
 }
 
 void
