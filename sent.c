@@ -105,6 +105,7 @@ static void advance(const Arg *arg);
 static void first_slide();
 static void last_slide();
 static void toggle_cursor(const Arg *arg);
+static void toggle_scm();
 static void pdf();
 static void quit(const Arg *arg);
 static void resize(int width, int height);
@@ -134,6 +135,8 @@ static Drw *d = NULL;
 static Clr *sc;
 static Fnt *fonts[NUMFONTSCALES];
 static int running = 1;
+static unsigned is_inverted = 0;
+static const char *inverted_colors[sizeof(colors) / sizeof(*colors)];
 
 static void (*handler[LASTEvent])(XEvent *) = {
 	[ButtonPress] = bpress,
@@ -560,6 +563,28 @@ toggle_cursor(const Arg *arg)
 }
 
 void
+toggle_scm()
+{
+	if (is_inverted) {
+		is_inverted = 0;
+		free(sc);
+		sc = drw_scm_create(d, colors, 2);
+	} else {
+		is_inverted = 1;
+		free(sc);
+		sc = drw_scm_create(d, inverted_colors, 2);
+	}
+
+	drw_setscheme(d, sc);
+	XSetWindowBackground(xw.dpy, xw.win, sc[ColBg].pixel);
+
+	/*
+	 * To also reload transparent image to use the inverted background.
+	 */
+	reload(NULL);
+}
+
+void
 pdf()
 {
 	const Arg next = { .i = 1 };
@@ -725,7 +750,12 @@ xinit(void)
 
 	if (!(d = drw_create(xw.dpy, xw.scr, xw.win, xw.w, xw.h)))
 		die("sent: Unable to create drawing context");
-	sc = drw_scm_create(d, colors, 2);
+
+	if (is_inverted)
+		sc = drw_scm_create(d, inverted_colors, 2);
+	else
+		sc = drw_scm_create(d, colors, 2);
+
 	drw_setscheme(d, sc);
 	XSetWindowBackground(xw.dpy, xw.win, sc[ColBg].pixel);
 
@@ -813,18 +843,23 @@ configure(XEvent *e)
 void
 usage(void)
 {
-	die("usage:\n\t%s [file]\n\t%s -h\n\t%s -v", argv0, argv0, argv0);
+	die("usage:\n\t%s [file]\n\t%s -h\n\t%s -v\n\t%s -i", argv0, argv0, argv0, argv0);
 }
 
 int
 main(int argc, char *argv[])
 {
 	FILE *fp = NULL;
+	inverted_colors[0] = colors[1];
+	inverted_colors[1] = colors[0];
 
 	ARGBEGIN {
 	case 'v':
 		fprintf(stderr, "sent-"VERSION"\n");
 		return 0;
+	case 'i':
+		is_inverted = 1;
+		break;
 	default:
 		usage();
 	} ARGEND
