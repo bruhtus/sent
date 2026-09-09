@@ -9,8 +9,8 @@ static char *fontfallbacks[] = {
 #define FONTSZ(x) ((int)(10.0 * powf(1.1288, (x)))) /* x in [0, NUMFONTSCALES-1] */
 
 static const char *colors[] = {
-	"#b9b9b9", /* foreground color */
-	"#121212", /* background color */
+	"#000000", /* foreground color */
+	"#FFFFFF", /* background color */
 };
 
 static const float linespacing = 1.4;
